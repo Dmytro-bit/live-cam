@@ -1,0 +1,13 @@
+[project]
+name = "live-cam"
+version = "0.1.0"
+description = "Add your description here"
+requires-python = ">=3.13"
+dependencies = [
+    "flask>=3.1.2",
+]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.14.10",
+]
