@@ -2,9 +2,15 @@ from datetime import datetime, UTC
 
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import DateTime, Integer
+from sqlalchemy.orm import DeclarativeBase
 from sqlalchemy.orm import Mapped, mapped_column
 
-db = SQLAlchemy()
+
+class Base(DeclarativeBase):
+    pass
+
+
+db = SQLAlchemy(model_class=Base)
 
 
 class BaseModel(db.Model):
@@ -14,6 +20,11 @@ class BaseModel(db.Model):
         Integer,
         primary_key=True
     )
+
+
+class UpdateModel(db.Model):
+    __abstract__ = True
+
     created_at: Mapped[datetime] = mapped_column(
         DateTime,
         default=datetime.now(UTC)
