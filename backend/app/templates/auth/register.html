@@ -6,17 +6,20 @@
 {% endblock %}
 {% block content %}
     <h1>Log in</h1>
-    {% if message %}
-        <div class="message">{{ message }}</div>
-    {% endif %}
 
     <form method="post">
         <label for="username">Username:</label><br>
         <input type="text" id="username" name="username"><br>
+        {% if username_error %}
+            {{ username_error }}<br>
+        {% endif %}
+
         <label for="password">Password:</label><br>
         <input type="password" id="password" name="password"><br>
-        {% if error %}
-            {{ error }}
+        <label for="confirm_password">Confirm Password: </label><br>
+        <input type="password" id="confirm_password" name="confirm_password"><br>
+        {% if password_error %}
+            {{ password_error }}
         {% endif %}
         <br>
         <input type="submit">

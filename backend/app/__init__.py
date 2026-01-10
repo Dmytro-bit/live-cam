@@ -15,7 +15,7 @@ def create_app():
 
     app.config["SQLALCHEMY_DATABASE_URI"] = env.str("DATABASE_URI")
     app.config["JWT_SECRET_KEY"] = env.str("JWT_SECRET_KEY")
-    app.config['JWT_TOKEN_LOCATION'] = ['cookies']
+    app.config["JWT_TOKEN_LOCATION"] = ["cookies"]
     db.init_app(app)
 
     @jwt.invalid_token_loader
