@@ -121,4 +121,4 @@ if __name__ == "__main__":
             if x_servo.current_angle() != snapshot['x-axis']:
                 x_servo.set_angle(snapshot['x-axis'])
             if y_servo.current_angle() != snapshot['y-axis']:
-                y_servo.set_angle(snapshot['x-axis'])
+                y_servo.set_angle(snapshot['y-axis'])
