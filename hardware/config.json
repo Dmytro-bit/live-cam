@@ -1,0 +1,15 @@
+{
+  "device-id": "0271a7bf-b4d6-4f74-95d9-4b83f80d2808",
+  "certificate-string": "very strong encrypted string, password '123' ",
+  "server-url": "http://127.0.0.1:5000",
+  "pubnub": {
+    "publish-key": "pub-c-f7ac7718-5039-4746-a0d1-2310b5134355",
+    "subscribe-key": "sub-c-751213b4-bd2c-4d96-948a-cb93418e3df0",
+    "channel-name": null,
+    "access-token": null
+  },
+  "servomotors-angle": {
+    "x-axis": 0,
+    "y-axis": 0
+  }
+}

@@ -1,0 +1,9 @@
+[project]
+name = "live-cam"
+version = "0.1.0"
+description = "Add your description here"
+requires-python = ">=3.13"
+dependencies = [
+    "gpiozero>=2.0.1",
+    "pubnub>=10.5.0",
+]
