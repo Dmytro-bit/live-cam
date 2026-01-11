@@ -8,6 +8,7 @@ dependencies = [
     "flask>=3.1.2",
     "flask-jwt-extended>=4.7.1",
     "flask-sqlalchemy>=3.1.1",
+    "pubnub>=10.5.0",
 ]
 
 [dependency-groups]

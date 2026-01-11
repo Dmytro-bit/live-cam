@@ -1,6 +1,7 @@
 from app.database import db
 from app.routers.auth import auth_route
 from app.routers.users import user_route
+from app.routers.device import device_route
 from environs import Env
 from flask import Flask, redirect, url_for
 from flask_jwt_extended import JWTManager
@@ -27,5 +28,6 @@ def create_app():
 
     app.register_blueprint(user_route, url_prefix="/users")
     app.register_blueprint(auth_route, url_prefix="/auth")
+    app.register_blueprint(device_route, url_prefix="/device")
 
     return app
