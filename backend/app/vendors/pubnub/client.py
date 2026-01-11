@@ -29,6 +29,10 @@ class PubNubClient:
         ]).authorized_uuid(user_uuid).ttl(ttl=self.token_ttl).sync()
         return envelope.result.token
 
+    def publish(self, channel_name: str, message: dict):
+        envelope = self.pubnub.publish().channel(channel_name).message(message).sync()
+        return envelope
+
     @staticmethod
     def generate_chanel_name(sensor_id: str):
         return f'sensor_{sensor_id}_{str(uuid.uuid4())}'

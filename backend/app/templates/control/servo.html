@@ -1,0 +1,156 @@
+{% extends "base.html" %}
+
+{% block title %}Servo Control{% endblock %}
+
+{% block content %}
+    <div>
+        <h1>Servo Motor Control</h1>
+
+        <div>
+            <label for="device-select">
+                Select Device:
+            </label>
+            <select id="device-select">
+                <option value="">-- Select a device --</option>
+                {% for device in devices %}
+                    <option value="{{ device.id }}" data-channel="{{ device.chanel_name }}"
+                            {% if selected_device and device.id == selected_device.id %}selected{% endif %}>
+                        Device ID: {{ device.id }} - Channel: {{ device.chanel_name }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div id="controls">
+            <div>
+                <div>
+                    <label for="x-slider">
+                        X-Axis: <span id="x-value">0</span>°
+                    </label>
+                    <input
+                            type="range"
+                            id="x-slider"
+                            min="-90"
+                            max="90"
+                            value="0"
+                            step="1"
+                    />
+                    <div>
+                        <span>-90°</span>
+                        <span>0°</span>
+                        <span>90°</span>
+                    </div>
+                </div>
+
+                <div>
+                    <label for="y-slider">
+                        Y-Axis: <span id="y-value">0</span>°
+                    </label>
+                    <input
+                            type="range"
+                            id="y-slider"
+                            min="-90"
+                            max="90"
+                            value="0"
+                            step="1"
+                    />
+                    <div>
+                        <span>-90°</span>
+                        <span>0°</span>
+                        <span>90°</span>
+                    </div>
+                </div>
+
+                <div id="status"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const deviceSelect = document.getElementById('device-select');
+        const controls = document.getElementById('controls');
+        const xSlider = document.getElementById('x-slider');
+        const ySlider = document.getElementById('y-slider');
+        const xValue = document.getElementById('x-value');
+        const yValue = document.getElementById('y-value');
+        const status = document.getElementById('status');
+
+        let currentChannel = null;
+        let publishTimeout = null;
+
+        deviceSelect.addEventListener('change', function () {
+            const selectedOption = this.options[this.selectedIndex];
+            currentChannel = selectedOption.dataset.channel;
+
+            if (currentChannel) {
+                xSlider.value = 0;
+                ySlider.value = 0;
+                xValue.textContent = '0';
+                yValue.textContent = '0';
+            } else {
+                currentChannel = null;
+            }
+        });
+
+        function updateAndPublish() {
+            if (!currentChannel) return;
+
+            const xAxis = parseInt(xSlider.value);
+            const yAxis = parseInt(ySlider.value);
+
+            xValue.textContent = xAxis;
+            yValue.textContent = yAxis;
+
+            if (publishTimeout) {
+                clearTimeout(publishTimeout);
+            }
+
+            publishTimeout = setTimeout(() => {
+                publishServoPosition(xAxis, yAxis);
+            }, 100);
+        }
+
+        xSlider.addEventListener('input', updateAndPublish);
+        ySlider.addEventListener('input', updateAndPublish);
+
+        async function publishServoPosition(xAxis, yAxis) {
+            if (!currentChannel) return;
+
+            status.textContent = 'Publishing...';
+
+            try {
+                const response = await fetch('/control/api/publish-servo', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    credentials: 'same-origin',
+                    body: JSON.stringify({
+                        channel_name: currentChannel,
+                        x_axis: xAxis,
+                        y_axis: yAxis
+                    })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    status.textContent = `Published: X=${xAxis}°, Y=${yAxis}°`;
+                } else {
+                    status.textContent = `Error: ${data.error || 'Failed to publish'}`;
+                }
+            } catch (error) {
+                status.textContent = `Error: ${error.message}`;
+            }
+
+            setTimeout(() => {
+                status.textContent = '';
+            }, 3000);
+        }
+
+        if (deviceSelect.value) {
+            const selectedOption = deviceSelect.options[deviceSelect.selectedIndex];
+            currentChannel = selectedOption.dataset.channel;
+        }
+    </script>
+{% endblock %}
