@@ -64,6 +64,11 @@
                 <div id="status"></div>
             </div>
         </div>
+
+        <div style="margin:0;background:#000">
+            <img src='{{ url_for('video.get_next_frame') }}' style='width:100vw;height:100vh;object-fit:contain;display:block'
+                 id="video-screen" alt="video-screen"/>
+        </div>
     </div>
 
     <script>
