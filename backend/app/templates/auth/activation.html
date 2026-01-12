@@ -1,7 +1,16 @@
 {% extends "base.html" %}
 
-{% block title %}Activation page{% endblock %}
+{% block title %}Activation Required{% endblock %}
 
 {% block content %}
-    <h1>Your account has been created, but it is not activated. Please contact me.</h1>
+    <div class="card">
+        <h1>Account Activation Required</h1>
+        <div class="message">
+            <p>Your account has been created, but it is not activated yet.</p>
+            <p style="margin-top: 0.5rem;">Please contact the administrator to activate your account.</p>
+        </div>
+        <p style="margin-top: 1rem;">
+            <a href="{{ url_for('auth.login') }}" style="color: #667eea;">Return to Login</a>
+        </p>
+    </div>
 {% endblock %}

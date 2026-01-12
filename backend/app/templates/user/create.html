@@ -1,23 +1,21 @@
 {% extends "base.html" %}
 
-{% block title %}Index{% endblock %}
+{% block title %}Create User{% endblock %}
 {% block head %}
     {{ super() }}
-    <style type="text/css">
-        .important {
-            color: #336699;
-        }
-    </style>
 {% endblock %}
 {% block content %}
-    <h1>Create user</h1>
+    <div class="card">
+        <h1>Create User</h1>
 
-    <form method="post">
-        <label for="username">Username:</label><br>
-        <input type="text" id="username" name="username"><br>
-        <label for="password">Password:</label><br>
-        <input type="password" id="password" name="password"><br>
-        <input type="submit">
-    </form>
-
+        <form method="post">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+            
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+            
+            <input type="submit" value="Create User">
+        </form>
+    </div>
 {% endblock %}

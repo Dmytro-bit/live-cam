@@ -2,14 +2,86 @@
 
 {% block title %}Servo Control{% endblock %}
 
+{% block extra_css %}
+    <style>
+        .servo-container {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .control-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .slider-container {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+        }
+
+        .slider-container label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .slider-container label span {
+            font-weight: bold;
+            color: #667eea;
+            font-size: 1.2rem;
+        }
+
+        .slider-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .video-container {
+            background: #000;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .video-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        #status {
+            background: #e3f2fd;
+            color: #1976d2;
+            font-weight: 500;
+        }
+
+        #status:empty {
+            display: none;
+        }
+
+        @media (max-width: 968px) {
+            .servo-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+{% endblock %}
+
 {% block content %}
-    <div>
+    <div class="card">
         <h1>Servo Motor Control</h1>
 
-        <div>
-            <label for="device-select">
-                Select Device:
-            </label>
+        <div style="margin-bottom: 2rem;">
+            <label for="device-select">Select Device:</label>
             <select id="device-select">
                 <option value="">-- Select a device --</option>
                 {% for device in devices %}
@@ -21,9 +93,9 @@
             </select>
         </div>
 
-        <div id="controls">
-            <div>
-                <div>
+        <div class="servo-container">
+            <div class="control-panel">
+                <div class="slider-container">
                     <label for="x-slider">
                         X-Axis: <span id="x-value">0</span>°
                     </label>
@@ -35,14 +107,14 @@
                             value="0"
                             step="1"
                     />
-                    <div>
+                    <div class="slider-labels">
                         <span>-90°</span>
                         <span>0°</span>
                         <span>90°</span>
                     </div>
                 </div>
 
-                <div>
+                <div class="slider-container">
                     <label for="y-slider">
                         Y-Axis: <span id="y-value">0</span>°
                     </label>
@@ -54,7 +126,7 @@
                             value="0"
                             step="1"
                     />
-                    <div>
+                    <div class="slider-labels">
                         <span>-90°</span>
                         <span>0°</span>
                         <span>90°</span>
@@ -63,11 +135,11 @@
 
                 <div id="status"></div>
             </div>
-        </div>
 
-        <div style="margin:0;background:#000">
-            <img src='{{ url_for('video.get_next_frame') }}' style='width:100vw;height:100vh;object-fit:contain;display:block'
-                 id="video-screen" alt="video-screen"/>
+            <div class="video-container">
+                <img src='{{ url_for('video.get_next_frame') }}'
+                     id="video-screen" alt="video-screen"/>
+            </div>
         </div>
     </div>
 
