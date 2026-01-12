@@ -3,6 +3,7 @@ from app.routers.auth import auth_route
 from app.routers.users import user_route
 from app.routers.device import device_route
 from app.routers.control import control_route
+from app.routers.video import video_route
 from environs import Env
 from flask import Flask, redirect, url_for
 from flask_jwt_extended import JWTManager
@@ -32,5 +33,6 @@ def create_app():
     app.register_blueprint(auth_route, url_prefix="/auth")
     app.register_blueprint(device_route, url_prefix="/device")
     app.register_blueprint(control_route, url_prefix="/control")
+    app.register_blueprint(video_route, url_prefix="/video")
 
     return app
