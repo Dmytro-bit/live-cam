@@ -7,7 +7,7 @@ RUN apt-get update && apt-get install -y curl \
 RUN curl -Ls https://astral.sh/uv/install.sh | sh
 
 
-ENV PATH="/root/.cargo/bin:$PATH"
+ENV PATH="/root/.local/bin:/root/.cargo/bin:$PATH"
 
 WORKDIR /app
 
@@ -19,4 +19,4 @@ COPY . .
 
 EXPOSE 8000
 
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "run:app"]
+CMD ["uv", "run", "gunicorn", "--bind", "0.0.0.0:8000", "run:app"]
