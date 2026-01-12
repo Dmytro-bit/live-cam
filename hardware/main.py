@@ -7,7 +7,7 @@ from typing import Dict
 
 import requests
 
-from devices.servomotor import Servo
+from devices.servomotor import Serial
 from vendors.pubnub_client import PubNubClient
 
 logging.basicConfig(
@@ -108,8 +108,7 @@ if __name__ == "__main__":
     PUBNUB_CLIENT.subscribe(message_handler=handle_pubnub_message)
     logger.info("Subscribed to PubNub channel for threshold updates")
 
-    x_servo = Servo(18)
-    y_servo = Servo(15)
+    servo_console = Serial()
 
     while True:
         sleep(0.1)
@@ -118,7 +117,4 @@ if __name__ == "__main__":
             snapshot = dict(CURRENT_SERVO_POSITION)
 
         if snapshot:
-            if x_servo.current_angle() != snapshot['x-axis']:
-                x_servo.set_angle(snapshot['x-axis'])
-            if y_servo.current_angle() != snapshot['y-axis']:
-                y_servo.set_angle(snapshot['x-axis'])
+            servo_console.move(snapshot['x-axis'], snapshot['y-axis'])

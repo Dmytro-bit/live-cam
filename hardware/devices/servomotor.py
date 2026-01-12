@@ -1,12 +1,12 @@
-from gpiozero import AngularServo
+import time
+
+import serial
 
 
-class Servo:
-    def __init__(self, pin: int):
-        self.servo = AngularServo(pin, min_pulse_width=0.0006, max_pulse_width=0.0023, initial_angle=90)
+class Serial:
+    def __init__(self):
+        self.serial = serial.Serial('/dev/ttyACM0', 9600, timeout=1)
+        time.sleep(2)
 
-    def set_angle(self, angle: int) -> None:
-        self.servo.angle = angle
-
-    def current_angle(self):
-        return self.servo.angle
+    def move(self, x_angle: int, y_angle: int) -> None:
+        self.serial.write(f"{x_angle} {y_angle}\n\n".encode())
