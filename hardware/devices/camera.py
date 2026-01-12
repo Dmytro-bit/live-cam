@@ -15,7 +15,7 @@ class Camera:
         self.camera.start()
 
     def capture_file(self, path):
-        self.camera.capture_file()
+        self.camera.capture_file(path)
 
     def __del__(self):
         self.camera.stop()
