@@ -11,7 +11,11 @@ logger = logging.getLogger(__name__)
 
 
 class PositionUpdateCallback(SubscribeCallback):
-    def __init__(self, message_handler: Optional[Callable] = None, token_refresh_callback: Optional[Callable] = None):
+    def __init__(
+        self,
+        message_handler: Optional[Callable] = None,
+        token_refresh_callback: Optional[Callable] = None,
+    ):
         self.message_handler = message_handler
         self.token_refresh_callback = token_refresh_callback
 
@@ -29,9 +33,17 @@ class PositionUpdateCallback(SubscribeCallback):
 
 
 class PubNubClient:
-
-    def __init__(self, sub_key: str, pub_key: str, sensor_id: str, chanel_name: str, access_token: str, server_url: str,
-                 certification_string: str, config_update_callback: Optional[Callable[[str], None]] = None):
+    def __init__(
+        self,
+        sub_key: str,
+        pub_key: str,
+        sensor_id: str,
+        chanel_name: str,
+        access_token: str,
+        server_url: str,
+        certification_string: str,
+        config_update_callback: Optional[Callable[[str], None]] = None,
+    ):
         pn_config = PNConfiguration()
         pn_config.subscribe_key = sub_key
         pn_config.publish_key = pub_key
@@ -54,11 +66,11 @@ class PubNubClient:
         logger.info("Updating pubnub auth key")
         try:
             resource = requests.post(
-                url=f'{self._server_url}/device/refresh-token',
+                url=f"{self._server_url}/device/refresh-token",
                 headers={
                     "certificate-string": self.__certification_string,
-                    "device-id": self.__sensor_id
-                }
+                    "device-id": self.__sensor_id,
+                },
             )
 
             if resource.ok:
@@ -69,7 +81,9 @@ class PubNubClient:
 
                 return True
             else:
-                logger.error(f"Failed to update pubnub auth key: {resource.status_code} - {resource.json()}")
+                logger.error(
+                    f"Failed to update pubnub auth key: {resource.status_code} - {resource.json()}"
+                )
                 return False
         except Exception as e:
             logger.error(f"Exception while refreshing PubNub token: {e}")
@@ -77,8 +91,7 @@ class PubNubClient:
 
     def subscribe(self, message_handler: Optional[Callable] = None):
         self.__callback = PositionUpdateCallback(
-            message_handler=message_handler,
-            token_refresh_callback=self.refresh_token
+            message_handler=message_handler, token_refresh_callback=self.refresh_token
         )
         self.pubnub.add_listener(self.__callback)
         self.pubnub.subscribe().channels(self.__channel).execute()
