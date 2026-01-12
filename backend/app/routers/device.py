@@ -51,7 +51,7 @@ def register(device: Device):
     device.chanel_name = channel_name
     db.session.commit()
 
-    token = CLIENT.grant_channel_access(channel_name, str(device.id))
+    token = CLIENT.grant_channel_access(channel_name, 'livecam-device')
 
     return {
         "channel": channel_name,
@@ -67,6 +67,6 @@ def refresh_token(device: Device):
     if not channel_name:
         return {"error": "Device not registered"}, 400
 
-    token = CLIENT.grant_channel_access(channel_name, str(device.id))
+    token = CLIENT.grant_channel_access(channel_name, 'livecam-device')
 
     return {"token": token}
