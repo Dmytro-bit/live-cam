@@ -8,7 +8,7 @@ from app.routers.device import device_auth_required
 video_route = Blueprint("video", __name__)
 
 LATEST = {
-    "jpg": None,
+    "jpg": b'',
     "ts": 0.0,
 }
 
@@ -20,11 +20,10 @@ def mjpeg_generator():
     while True:
         if LATEST["jpg"] is None:
             time.sleep(0.05)
-            continue
 
         if LATEST["ts"] == last_sent_ts:
             time.sleep(0.01)
-            continue
+
 
         jpg = LATEST["jpg"]
         last_sent_ts = LATEST["ts"]
