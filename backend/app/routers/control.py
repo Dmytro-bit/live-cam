@@ -49,8 +49,8 @@ def publish_servo():
     message = {
         "request_type": "change_servomotors_position",
         "servomotors-angle": {
-            "x-axis": int(x_axis),
-            "y-axis": int(y_axis)
+            "x-axis": int(x_axis)+90,
+            "y-axis": int(y_axis)+90
         }
     }
 
