@@ -2,7 +2,7 @@ import time
 
 from flask import Blueprint, Response, request
 from flask_jwt_extended import jwt_required
-
+from app.models.device import Device
 from app.routers.device import device_auth_required
 
 video_route = Blueprint("video", __name__)
@@ -51,7 +51,7 @@ def get_next_frame():
 
 @video_route.route("/upload_frame", methods=["POST"])
 @device_auth_required
-def upload_frame():
+def upload_frame(device: Device):
     if "frame" not in request.files:
         return {"error": "missing form-data file field 'frame'"}, 400
 
