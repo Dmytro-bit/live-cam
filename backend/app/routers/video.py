@@ -35,7 +35,7 @@ def mjpeg_generator():
         )
 
 
-@video_route.route("get-next-frame")
+@video_route.route("/get-next-frame")
 @jwt_required()
 def get_next_frame():
     return Response(
@@ -49,7 +49,7 @@ def get_next_frame():
     )
 
 
-@video_route.route("upload_frame")
+@video_route.route("/upload_frame", methods=["POST"])
 @device_auth_required
 def upload_frame():
     if "frame" not in request.files:
