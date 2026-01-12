@@ -8,7 +8,7 @@ from app.database import BaseModel, UpdateModel
 class User(BaseModel, UpdateModel):
     username: Mapped[str] = mapped_column(unique=True)
     password: Mapped[str] = mapped_column(String(255), nullable=False)
-    is_active: Mapped[bool] = mapped_column(default=True)
+    is_active: Mapped[bool] = mapped_column(default=False)
 
     __tablename__ = "users"
 
