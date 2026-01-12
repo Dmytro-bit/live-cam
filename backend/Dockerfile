@@ -19,4 +19,4 @@ COPY . .
 
 EXPOSE 8000
 
-CMD ["uv", "run", "gunicorn", "--bind", "0.0.0.0:8000", "run:app"]
+CMD ["uv", "run", "gunicorn", "--bind", "0.0.0.0:8000", "-w" , "3", "--threads", "8", "run:app"]
